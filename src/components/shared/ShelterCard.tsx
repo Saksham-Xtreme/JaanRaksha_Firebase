@@ -1,10 +1,45 @@
+'use client';
+
+import { useState } from "react";
 import Image from "next/image";
 import type { Shelter } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, PawPrint, DollarSign, MapPin } from "lucide-react";
+import { Home, PawPrint, DollarSign, MapPin, Heart } from "lucide-react";
+import { awardPoints } from "@/app/actions/points";
+import { useToast } from "@/hooks/use-toast";
 
 export function ShelterCard({ shelter }: { shelter: Shelter }) {
+  const [fundraising, setFundraising] = useState(false);
+  const { toast } = useToast();
+
+  const handleFundraise = async () => {
+    setFundraising(true);
+    try {
+      const result = await awardPoints({
+        userId: "u1", // In a real app, this would be the logged-in user's ID
+        action: "fundraise",
+        shelterId: shelter.id,
+        description: `Helped with fundraising for ${shelter.name}`
+      });
+      
+      if (result.success) {
+        toast({
+          title: "Fundraising Points! 💰",
+          description: `You earned ${result.points} points for helping ${shelter.name}!`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to award points. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setFundraising(false);
+    }
+  };
+
   return (
     <Card className="overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative h-52 w-full">
@@ -35,7 +70,16 @@ export function ShelterCard({ shelter }: { shelter: Shelter }) {
             <span className="text-muted-foreground ml-1.5">Funds Raised</span>
         </div>
       </CardContent>
-      <CardFooter>
+      <CardFooter className="flex flex-col gap-2">
+        <Button 
+          onClick={handleFundraise} 
+          variant="outline" 
+          disabled={fundraising}
+          className="w-full"
+        >
+          <Heart className="mr-2 h-4 w-4" />
+          {fundraising ? "Helping..." : "Help with Fundraising (+100 pts)"}
+        </Button>
         <Button variant="outline" className="w-full">
           Learn More & Donate
         </Button>

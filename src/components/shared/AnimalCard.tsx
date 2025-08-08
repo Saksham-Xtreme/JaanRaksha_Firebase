@@ -3,8 +3,9 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
-import { PawPrint, Sparkles, ChevronDown } from "lucide-react";
+import { PawPrint, Sparkles, ChevronDown, Heart, Shield } from "lucide-react";
 import { summarizeAnimalStory } from "@/app/actions/summarize";
+import { awardPoints } from "@/app/actions/points";
 
 import type { Animal } from "@/lib/types";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -13,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Skeleton } from "../ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
 interface AnimalCardProps {
   animal: Animal;
@@ -22,6 +24,9 @@ export function AnimalCard({ animal }: AnimalCardProps) {
   const [summary, setSummary] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [petting, setPetting] = useState(false);
+  const [protecting, setProtecting] = useState(false);
+  const { toast } = useToast();
 
   const getSummary = async (event: FormEvent) => {
     event.preventDefault();
@@ -51,6 +56,60 @@ export function AnimalCard({ animal }: AnimalCardProps) {
   const getAnimalIcon = () => {
     return <PawPrint className="h-4 w-4 mr-2 text-muted-foreground" />;
   }
+
+  const handlePetAnimal = async () => {
+    setPetting(true);
+    try {
+      const result = await awardPoints({
+        userId: "u1", // In a real app, this would be the logged-in user's ID
+        action: "pet_animal",
+        animalId: animal.id,
+        description: `Pet ${animal.name} the ${animal.species}`
+      });
+      
+      if (result.success) {
+        toast({
+          title: "Points Earned! 🎉",
+          description: `You earned ${result.points} points for petting ${animal.name}!`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to award points. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setPetting(false);
+    }
+  };
+
+  const handleProtectAnimal = async () => {
+    setProtecting(true);
+    try {
+      const result = await awardPoints({
+        userId: "u1", // In a real app, this would be the logged-in user's ID
+        action: "protect_animal",
+        animalId: animal.id,
+        description: `Protected ${animal.name} the ${animal.species}`
+      });
+      
+      if (result.success) {
+        toast({
+          title: "Protection Points! 🛡️",
+          description: `You earned ${result.points} points for protecting ${animal.name}!`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to award points. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setProtecting(false);
+    }
+  };
 
   return (
     <Card className="overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
@@ -105,14 +164,40 @@ export function AnimalCard({ animal }: AnimalCardProps) {
           {error && <p className="text-destructive text-sm mt-2">{error}</p>}
         </div>
       </CardContent>
-      <CardFooter className="flex flex-col sm:flex-row gap-2">
-        <form onSubmit={getSummary} className="w-full">
-          <Button type="submit" variant="outline" className="w-full" disabled={isLoading}>
-            <Sparkles className="mr-2 h-4 w-4" />
-            {summary ? "Regenerate Summary" : "Summarize Story"}
+      <CardFooter className="flex flex-col gap-2">
+        <div className="flex gap-2 w-full">
+          <Button 
+            onClick={handlePetAnimal} 
+            variant="outline" 
+            size="sm" 
+            disabled={petting}
+            className="flex-1"
+          >
+            <Heart className="mr-2 h-4 w-4" />
+            {petting ? "Petting..." : "Pet (+20 pts)"}
           </Button>
-        </form>
-        <Button className="w-full" disabled={animal.status !== 'available_for_adoption'}>Adopt Me</Button>
+          <Button 
+            onClick={handleProtectAnimal} 
+            variant="outline" 
+            size="sm" 
+            disabled={protecting}
+            className="flex-1"
+          >
+            <Shield className="mr-2 h-4 w-4" />
+            {protecting ? "Protecting..." : "Protect (+20 pts)"}
+          </Button>
+        </div>
+        <div className="flex gap-2 w-full">
+          <form onSubmit={getSummary} className="flex-1">
+            <Button type="submit" variant="outline" className="w-full" disabled={isLoading}>
+              <Sparkles className="mr-2 h-4 w-4" />
+              {summary ? "Regenerate Summary" : "Summarize Story"}
+            </Button>
+          </form>
+          <Button className="flex-1" disabled={animal.status !== 'available_for_adoption'}>
+            Adopt Me
+          </Button>
+        </div>
       </CardFooter>
     </Card>
   );

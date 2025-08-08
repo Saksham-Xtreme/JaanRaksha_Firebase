@@ -2,17 +2,23 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { PawPrint, Menu } from "lucide-react";
+import { Menu } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { Logo } from "@/components/ui/Logo";
 
 const navLinks = [
   { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
   { href: "/adopt", label: "Adopt" },
   { href: "/shelters", label: "Shelters" },
   { href: "/land-plots", label: "Land Plots" },
+  { href: "/leaderboard", label: "Leaderboard" },
+  { href: "/rewards", label: "Rewards" },
+  { href: "/profile", label: "Profile" },
+  { href: "/demo", label: "Demo" },
 ];
 
 export function Header() {
@@ -21,9 +27,8 @@ export function Header() {
   return (
     <header className="bg-background/80 backdrop-blur-sm sticky top-0 z-50 border-b">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-2 transition-transform hover:scale-105">
-          <PawPrint className="h-7 w-7 text-primary" />
-          <span className="text-xl font-bold tracking-tight font-headline text-primary-dark">Jaanraksha</span>
+        <Link href="/" className="transition-transform hover:scale-105">
+          <Logo />
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
@@ -53,9 +58,8 @@ export function Header() {
               </SheetTrigger>
               <SheetContent side="right">
                 <div className="grid gap-4 py-6">
-                  <Link href="/" className="flex items-center gap-2 mb-4">
-                     <PawPrint className="h-7 w-7 text-primary" />
-                     <span className="text-xl font-bold tracking-tight font-headline text-primary-dark">Jaanraksha</span>
+                  <Link href="/" className="mb-4">
+                     <Logo />
                   </Link>
                   {navLinks.map((link) => (
                     <Link

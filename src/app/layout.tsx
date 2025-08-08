@@ -5,8 +5,11 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "Jaanraksha",
-  description: "A sanctuary for animals in need.",
+  title: "JaanRaksha - Protecting Every Life",
+  description: "India's revolutionary animal welfare platform. Rescue, adopt, donate, and earn rewards while making a difference in millions of lives.",
+  icons: {
+    icon: '/icon.svg',
+  },
 };
 
 export default function RootLayout({

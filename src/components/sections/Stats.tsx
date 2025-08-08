@@ -37,17 +37,17 @@ export function Stats() {
         <div className="grid gap-8 md:grid-cols-3 mb-12">
           <Card className="flex flex-col items-center text-center p-6 shadow-lg transform transition-transform hover:-translate-y-2">
             <PawPrint className="h-12 w-12 text-primary mb-4" />
-            <p className="text-4xl font-bold">1,224</p>
+            <p className="text-4xl font-bold">2,847</p>
             <p className="text-muted-foreground">Animals Rescued</p>
           </Card>
           <Card className="flex flex-col items-center text-center p-6 shadow-lg transform transition-transform hover:-translate-y-2">
             <Heart className="h-12 w-12 text-primary mb-4" />
-            <p className="text-4xl font-bold">978</p>
+            <p className="text-4xl font-bold">1,956</p>
             <p className="text-muted-foreground">Lives Adopted</p>
           </Card>
           <Card className="flex flex-col items-center text-center p-6 shadow-lg transform transition-transform hover:-translate-y-2">
             <Home className="h-12 w-12 text-primary mb-4" />
-            <p className="text-4xl font-bold">82</p>
+            <p className="text-4xl font-bold">156</p>
             <p className="text-muted-foreground">Shelters Supported</p>
           </Card>
         </div>
