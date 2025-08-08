@@ -1,4 +1,4 @@
-# **App Name**: HavenNest
+# **App Name**: Jaanraksha
 
 ## Core Features:
 

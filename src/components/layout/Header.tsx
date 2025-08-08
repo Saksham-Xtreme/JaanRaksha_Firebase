@@ -23,7 +23,7 @@ export function Header() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2 transition-transform hover:scale-105">
           <PawPrint className="h-7 w-7 text-primary" />
-          <span className="text-xl font-bold tracking-tight font-headline text-primary-dark">HavenNest</span>
+          <span className="text-xl font-bold tracking-tight font-headline text-primary-dark">Jaanraksha</span>
         </Link>
         <nav className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => (
@@ -55,7 +55,7 @@ export function Header() {
                 <div className="grid gap-4 py-6">
                   <Link href="/" className="flex items-center gap-2 mb-4">
                      <PawPrint className="h-7 w-7 text-primary" />
-                     <span className="text-xl font-bold tracking-tight font-headline text-primary-dark">HavenNest</span>
+                     <span className="text-xl font-bold tracking-tight font-headline text-primary-dark">Jaanraksha</span>
                   </Link>
                   {navLinks.map((link) => (
                     <Link

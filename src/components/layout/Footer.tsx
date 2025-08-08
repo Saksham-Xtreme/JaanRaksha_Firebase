@@ -8,7 +8,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2">
             <PawPrint className="h-6 w-6 text-primary" />
-            <span className="text-lg font-bold font-headline">HavenNest</span>
+            <span className="text-lg font-bold font-headline">Jaanraksha</span>
           </div>
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} HavenNest. All rights reserved.

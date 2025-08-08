@@ -5,7 +5,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 
 export const metadata: Metadata = {
-  title: "HavenNest",
+  title: "Jaanraksha",
   description: "A sanctuary for animals in need.",
 };
 
