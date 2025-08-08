@@ -3,9 +3,11 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
-import { PawPrint, Sparkles, ChevronDown, Heart, Shield } from "lucide-react";
+import { PawPrint, Sparkles, ChevronDown, Heart, Shield, CheckCircle, AlertCircle } from "lucide-react";
 import { summarizeAnimalStory } from "@/app/actions/summarize";
 import { awardPoints } from "@/app/actions/points";
+import { verifyAnimalAction } from "@/app/actions/verification";
+import { AdoptionForm, type AdoptionFormData } from "./AdoptionForm";
 
 import type { Animal } from "@/lib/types";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -26,6 +28,9 @@ export function AnimalCard({ animal }: AnimalCardProps) {
   const [error, setError] = useState<string | null>(null);
   const [petting, setPetting] = useState(false);
   const [protecting, setProtecting] = useState(false);
+  const [verificationCode, setVerificationCode] = useState<string | null>(null);
+  const [isVerified, setIsVerified] = useState(false);
+  const [showAdoptionForm, setShowAdoptionForm] = useState(false);
   const { toast } = useToast();
 
   const getSummary = async (event: FormEvent) => {
@@ -108,6 +113,61 @@ export function AnimalCard({ animal }: AnimalCardProps) {
       });
     } finally {
       setProtecting(false);
+    }
+  };
+
+  const handleAdoptAnimal = () => {
+    setShowAdoptionForm(true);
+  };
+
+  const handleAdoptionSubmit = async (formData: AdoptionFormData) => {
+    try {
+      // Award points for adoption
+      const result = await awardPoints({
+        userId: "u1",
+        action: "adopt_animal",
+        animalId: animal.id,
+        description: `Adopted ${animal.name} the ${animal.species}`
+      });
+
+      if (result.success) {
+        toast({
+          title: "Adoption Application Submitted!",
+          description: `You earned ${result.points} points for adopting ${animal.name}! We'll contact you soon.`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to submit adoption application",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleVerifyAction = async (action: 'protect' | 'pet' | 'adopt') => {
+    try {
+      const result = await verifyAnimalAction({
+        userId: "u1",
+        animalId: animal.id,
+        action: action,
+        timestamp: new Date(),
+      });
+
+      if (result.success) {
+        setVerificationCode(result.verificationCode);
+        setIsVerified(true);
+        toast({
+          title: "Action Verified!",
+          description: `Your ${action} action has been verified. Verification code: ${result.verificationCode}`,
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to verify action",
+        variant: "destructive",
+      });
     }
   };
 
@@ -194,11 +254,61 @@ export function AnimalCard({ animal }: AnimalCardProps) {
               {summary ? "Regenerate Summary" : "Summarize Story"}
             </Button>
           </form>
-          <Button className="flex-1" disabled={animal.status !== 'available_for_adoption'}>
+          <Button 
+            className="flex-1" 
+            disabled={animal.status !== 'available_for_adoption'}
+            onClick={handleAdoptAnimal}
+          >
             Adopt Me
           </Button>
         </div>
+        
+        {/* Verification Section */}
+        {isVerified && (
+          <div className="w-full p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center gap-2 text-green-700">
+              <CheckCircle className="h-4 w-4" />
+              <span className="text-sm font-medium">Action Verified</span>
+            </div>
+            <p className="text-xs text-green-600 mt-1">
+              Code: {verificationCode}
+            </p>
+          </div>
+        )}
+        
+        {/* Verification Buttons */}
+        <div className="flex gap-2 w-full">
+          <Button 
+            onClick={() => handleVerifyAction('pet')} 
+            variant="outline" 
+            size="sm" 
+            className="flex-1"
+            disabled={isVerified}
+          >
+            <CheckCircle className="mr-2 h-4 w-4" />
+            Verify Pet
+          </Button>
+          <Button 
+            onClick={() => handleVerifyAction('protect')} 
+            variant="outline" 
+            size="sm" 
+            className="flex-1"
+            disabled={isVerified}
+          >
+            <Shield className="mr-2 h-4 w-4" />
+            Verify Protect
+          </Button>
+        </div>
       </CardFooter>
+      
+      {/* Adoption Form Modal */}
+      {showAdoptionForm && (
+        <AdoptionForm
+          animal={animal}
+          onClose={() => setShowAdoptionForm(false)}
+          onSubmit={handleAdoptionSubmit}
+        />
+      )}
     </Card>
   );
 }

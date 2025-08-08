@@ -20,6 +20,12 @@ export function Footer() {
             <Link href="/shelters" className="text-sm hover:text-primary transition-colors">
               Shelters
             </Link>
+            <Link href="/doctor" className="text-sm hover:text-primary transition-colors">
+              Veterinary
+            </Link>
+            <Link href="/payment" className="text-sm hover:text-primary transition-colors">
+              Donate
+            </Link>
             <Link href="/leaderboard" className="text-sm hover:text-primary transition-colors">
               Leaderboard
             </Link>

@@ -15,6 +15,8 @@ const navLinks = [
   { href: "/adopt", label: "Adopt" },
   { href: "/shelters", label: "Shelters" },
   { href: "/land-plots", label: "Land Plots" },
+  { href: "/doctor", label: "Veterinary" },
+  { href: "/payment", label: "Donate" },
   { href: "/leaderboard", label: "Leaderboard" },
   { href: "/rewards", label: "Rewards" },
   { href: "/profile", label: "Profile" },
