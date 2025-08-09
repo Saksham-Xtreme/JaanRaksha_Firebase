@@ -18,16 +18,6 @@ export interface Shelter {
   photo: string;
 }
 
-export interface LandPlot {
-  id: string;
-  ownerName: string;
-  location: string;
-  address: string;
-  photos: string[];
-  description: string;
-  status: 'pending_verification' | 'available' | 'in_use';
-}
-
 // Point System Types
 export interface User {
   id: string;
@@ -44,12 +34,11 @@ export interface PointTransaction {
   id: string;
   userId: string;
   points: number;
-  action: 'pet_animal' | 'protect_animal' | 'donate_land' | 'fundraise' | 'adopt_animal';
+  action: 'pet_animal' | 'protect_animal' | 'donate_land' | 'fundraise' | 'adopt_animal' | 'submit_protection_report';
   description: string;
   timestamp: Date;
   animalId?: string;
   shelterId?: string;
-  landPlotId?: string;
 }
 
 export interface LeaderboardEntry {

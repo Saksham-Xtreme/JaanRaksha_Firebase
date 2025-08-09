@@ -1,4 +1,4 @@
-import type { Animal, Shelter, LandPlot } from './types';
+import type { Animal, Shelter } from './types';
 
 export const animals: Animal[] = [
   {
@@ -268,53 +268,5 @@ export const shelters: Shelter[] = [
     fundsRaised: 25000,
     location: 'Bhopal, Madhya Pradesh',
     photo: 'https://images.unsplash.com/photo-1534351450161-bf101375b870?w=800&h=600&fit=crop'
-  }
-];
-
-export const landPlots: LandPlot[] = [
-  {
-    id: 'lp1',
-    ownerName: 'Rajesh Kumar',
-    location: 'Bangalore, Karnataka',
-    address: '123 Green Meadows, Whitefield, Bangalore, Karnataka',
-    photos: ['https://images.unsplash.com/photo-1534351450161-bf101375b870?w=800&h=600&fit=crop'],
-    description: '5 acres of fenced, open land with a small barn. Perfect for a new dog shelter with plenty of space for animals to roam.',
-    status: 'available',
-  },
-  {
-    id: 'lp2',
-    ownerName: 'Priya Sharma',
-    location: 'Delhi, India',
-    address: '456 Forest Road, Mehrauli, Delhi, India',
-    photos: ['https://images.unsplash.com/photo-1524813508317-254811549484?w=800&h=600&fit=crop', 'https://images.unsplash.com/photo-1569083194510-f7a0817d315c?w=800&h=600&fit=crop'],
-    description: '10 acres of wooded land with running water and existing outbuildings. Ideal for a large-scale sanctuary with natural habitat.',
-    status: 'available',
-  },
-  {
-    id: 'lp3',
-    ownerName: 'Amit Patel',
-    location: 'Mumbai, Maharashtra',
-    address: '789 Coastal View, Bandra West, Mumbai, Maharashtra',
-    photos: ['https://images.unsplash.com/photo-1576201836106-db1758fd1c97?w=800&h=600&fit=crop'],
-    description: 'A 2-acre plot with a modern facility, previously used as a veterinary clinic. Awaiting verification for animal shelter use.',
-    status: 'pending_verification',
-  },
-  {
-    id: 'lp4',
-    ownerName: 'Sunita Devi',
-    location: 'Chennai, Tamil Nadu',
-    address: '321 Farm Road, OMR, Chennai, Tamil Nadu',
-    photos: ['https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&h=600&fit=crop'],
-    description: '8 acres of agricultural land with irrigation facilities. Perfect for a farm animal sanctuary with grazing areas.',
-    status: 'available',
-  },
-  {
-    id: 'lp5',
-    ownerName: 'Vikram Singh',
-    location: 'Rajasthan, India',
-    address: '789 Desert Farm, Jaisalmer, Rajasthan',
-    photos: ['https://images.unsplash.com/photo-1524813508317-254811549484?w=800&h=600&fit=crop'],
-    description: '15 acres of desert land with natural water sources. Ideal for wildlife sanctuary and camel rescue.',
-    status: 'available',
   }
 ];

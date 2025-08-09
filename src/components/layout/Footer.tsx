@@ -2,6 +2,20 @@ import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 
 export function Footer() {
+  const footerLinks = [
+    { href: "/", label: "Home" },
+    { href: "/about", label: "About" },
+    { href: "/adopt", label: "Adopt" },
+    { href: "/shelters", label: "Shelters" },
+    { href: "/provide-shelter", label: "Provide Shelter" },
+    { href: "/protect", label: "Protect Animals" },
+    { href: "/doctor", label: "Veterinary" },
+    { href: "/payment", label: "Donate" },
+    { href: "/leaderboard", label: "Leaderboard" },
+    { href: "/rewards", label: "Rewards" },
+    { href: "/demo", label: "Demo" },
+  ];
+
   return (
     <footer className="bg-secondary/50 border-t">
       <div className="container mx-auto px-4 md:px-6 py-8">
@@ -11,33 +25,15 @@ export function Footer() {
             © {new Date().getFullYear()} HavenNest. All rights reserved.
           </p>
           <nav className="flex items-center gap-4 md:gap-6">
-            <Link href="/about" className="text-sm hover:text-primary transition-colors">
-              About
-            </Link>
-            <Link href="/adopt" className="text-sm hover:text-primary transition-colors">
-              Adopt
-            </Link>
-            <Link href="/shelters" className="text-sm hover:text-primary transition-colors">
-              Shelters
-            </Link>
-            <Link href="/doctor" className="text-sm hover:text-primary transition-colors">
-              Veterinary
-            </Link>
-            <Link href="/payment" className="text-sm hover:text-primary transition-colors">
-              Donate
-            </Link>
-            <Link href="/leaderboard" className="text-sm hover:text-primary transition-colors">
-              Leaderboard
-            </Link>
-            <Link href="/rewards" className="text-sm hover:text-primary transition-colors">
-              Rewards
-            </Link>
-            <Link href="/demo" className="text-sm hover:text-primary transition-colors">
-              Demo
-            </Link>
-            <Link href="/contact" className="text-sm hover:text-primary transition-colors">
-              Contact
-            </Link>
+            {footerLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className="text-sm hover:text-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
           </nav>
         </div>
       </div>

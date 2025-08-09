@@ -59,7 +59,7 @@ let rewards: Reward[] = [
     name: "Jeev Daya T-Shirt",
     description: "Exclusive t-shirt for animal protectors with traditional Indian design",
     pointsRequired: 100,
-    image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=2950&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1546527868-ccb7ee7dfa6a?w=800&h=600&fit=crop",
     type: "shirt",
     available: true
   },
@@ -68,7 +68,7 @@ let rewards: Reward[] = [
     name: "Pashu Mitra Badge",
     description: "Special badge for animal welfare heroes",
     pointsRequired: 200,
-    image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=2950&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1558788353-f76d92427f16?w=800&h=600&fit=crop",
     type: "badge",
     available: true
   },
@@ -77,7 +77,7 @@ let rewards: Reward[] = [
     name: "Gau Seva Certificate",
     description: "Certificate for land donors and animal welfare supporters",
     pointsRequired: 500,
-    image: "https://images.unsplash.com/photo-1589829085413-56de8ae18c73?q=80&w=2950&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", 
+    image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?w=800&h=600&fit=crop", 
     type: "certificate",
     available: true
   },
@@ -86,7 +86,7 @@ let rewards: Reward[] = [
     name: "Ahimsa Medal",
     description: "Special medal for those who practice non-violence towards animals",
     pointsRequired: 300,
-    image: "https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=2950&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    image: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=800&h=600&fit=crop",
     type: "badge",
     available: true
   }
@@ -94,10 +94,9 @@ let rewards: Reward[] = [
 
 const awardPointsSchema = z.object({
   userId: z.string(),
-  action: z.enum(['pet_animal', 'protect_animal', 'donate_land', 'fundraise', 'adopt_animal']),
+  action: z.enum(['pet_animal', 'protect_animal', 'donate_land', 'fundraise', 'adopt_animal', 'submit_protection_report']),
   animalId: z.string().optional(),
   shelterId: z.string().optional(),
-  landPlotId: z.string().optional(),
   description: z.string()
 });
 
@@ -108,7 +107,7 @@ export async function awardPoints(values: z.infer<typeof awardPointsSchema>) {
     return { success: false, message: "Invalid data provided." };
   }
 
-  const { userId, action, animalId, shelterId, landPlotId, description } = parsed.data;
+  const { userId, action, animalId, shelterId, description } = parsed.data;
 
   // Determine points based on action
   let points = 0;
@@ -128,6 +127,9 @@ export async function awardPoints(values: z.infer<typeof awardPointsSchema>) {
     case 'adopt_animal':
       points = 50;
       break;
+    case 'submit_protection_report':
+      points = 20;
+      break;
   }
 
   // Create transaction
@@ -139,8 +141,7 @@ export async function awardPoints(values: z.infer<typeof awardPointsSchema>) {
     description,
     timestamp: new Date(),
     animalId,
-    shelterId,
-    landPlotId
+    shelterId
   };
 
   // Add to transactions
