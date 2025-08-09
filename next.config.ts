@@ -24,6 +24,10 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  // Ensure compatibility with Vercel deployment
+  output: 'standalone',
+  // Disable source maps in production for better performance
+  productionBrowserSourceMaps: false,
 };
 
 export default nextConfig;
