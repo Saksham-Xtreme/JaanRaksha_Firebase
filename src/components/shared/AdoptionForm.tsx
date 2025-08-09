@@ -133,14 +133,17 @@ export function AdoptionForm({ animal, onClose, onSubmit }: AdoptionFormProps) {
             <div className="bg-secondary/50 p-4 rounded-lg">
               <div className="flex items-center gap-3">
                 <img 
-                  src={animal.image} 
+                  src={animal.photos[0]} 
                   alt={animal.name}
                   className="w-16 h-16 rounded-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
                 />
                 <div>
                   <h3 className="font-semibold">{animal.name}</h3>
-                  <p className="text-sm text-muted-foreground">{animal.breed} • {animal.age}</p>
-                  <Badge variant="outline" className="mt-1">{animal.location}</Badge>
+                  <p className="text-sm text-muted-foreground">{animal.species}</p>
+                  <Badge variant="outline" className="mt-1">{animal.status}</Badge>
                 </div>
               </div>
             </div>

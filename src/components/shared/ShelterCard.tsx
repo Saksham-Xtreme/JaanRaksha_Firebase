@@ -1,16 +1,17 @@
 'use client';
 
 import { useState } from "react";
+import { Home, MapPin, PawPrint, DollarSign, Heart, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 import type { Shelter } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Home, PawPrint, DollarSign, MapPin, Heart } from "lucide-react";
 import { awardPoints } from "@/app/actions/points";
 import { useToast } from "@/hooks/use-toast";
 
 export function ShelterCard({ shelter }: { shelter: Shelter }) {
   const [fundraising, setFundraising] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const { toast } = useToast();
 
   const handleFundraise = async () => {
@@ -26,7 +27,7 @@ export function ShelterCard({ shelter }: { shelter: Shelter }) {
       if (result.success) {
         toast({
           title: "Fundraising Points! 💰",
-          description: `You earned ${result.points} points for helping ${shelter.name}!`,
+          description: `You earned ${result.points} points for helping with fundraising at ${shelter.name}!`,
         });
       }
     } catch (error) {
@@ -43,13 +44,24 @@ export function ShelterCard({ shelter }: { shelter: Shelter }) {
   return (
     <Card className="overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative h-52 w-full">
-        <Image
-          src={shelter.photo}
-          alt={`Photo of ${shelter.name}`}
-          data-ai-hint="animal shelter building"
-          fill
-          className="object-cover"
-        />
+        {imageError ? (
+          <div className="w-full h-full bg-muted flex items-center justify-center">
+            <div className="text-center">
+              <ImageIcon className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Image not available</p>
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={shelter.photo}
+            alt={`Photo of ${shelter.name}`}
+            data-ai-hint="animal shelter building"
+            fill
+            className="object-cover"
+            onError={() => setImageError(true)}
+            priority={false}
+          />
+        )}
       </div>
       <CardHeader>
         <CardTitle className="font-headline text-2xl flex items-center gap-2"><Home className="h-6 w-6 text-primary"/>{shelter.name}</CardTitle>

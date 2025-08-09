@@ -1,17 +1,18 @@
 'use client';
 
 import { useState } from "react";
+import { MapPin, Heart, Image as ImageIcon } from "lucide-react";
 import Image from "next/image";
 import type { LandPlot } from "@/lib/types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { MapPin, Heart } from "lucide-react";
 import { awardPoints } from "@/app/actions/points";
 import { useToast } from "@/hooks/use-toast";
 
 export function LandPlotCard({ plot }: { plot: LandPlot }) {
     const [donating, setDonating] = useState(false);
+    const [imageError, setImageError] = useState(false);
     const { toast } = useToast();
 
     const getStatusBadge = () => {
@@ -32,13 +33,13 @@ export function LandPlotCard({ plot }: { plot: LandPlot }) {
                 userId: "u1", // In a real app, this would be the logged-in user's ID
                 action: "donate_land",
                 landPlotId: plot.id,
-                description: `Donated land at ${plot.location} for animal welfare`
+                description: `Donated land at ${plot.location}`
             });
             
             if (result.success) {
                 toast({
                     title: "Land Donation Points! 🏞️",
-                    description: `You earned ${result.points} points for donating land!`,
+                    description: `You earned ${result.points} points for donating land at ${plot.location}!`,
                 });
             }
         } catch (error) {
@@ -55,13 +56,24 @@ export function LandPlotCard({ plot }: { plot: LandPlot }) {
   return (
     <Card className="overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative h-52 w-full">
-        <Image
-          src={plot.photos[0]}
-          alt={`Photo of land at ${plot.address}`}
-          data-ai-hint="empty land field"
-          fill
-          className="object-cover"
-        />
+        {imageError ? (
+          <div className="w-full h-full bg-muted flex items-center justify-center">
+            <div className="text-center">
+              <ImageIcon className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Image not available</p>
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={plot.photos[0]}
+            alt={`Photo of land at ${plot.address}`}
+            data-ai-hint="empty land field"
+            fill
+            className="object-cover"
+            onError={() => setImageError(true)}
+            priority={false}
+          />
+        )}
       </div>
       <CardHeader>
         <div className="flex justify-between items-start">

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { FormEvent } from "react";
 import Image from "next/image";
-import { PawPrint, Sparkles, ChevronDown, Heart, Shield, CheckCircle, AlertCircle } from "lucide-react";
+import { PawPrint, Sparkles, ChevronDown, Heart, Shield, CheckCircle, AlertCircle, Image as ImageIcon } from "lucide-react";
 import { summarizeAnimalStory } from "@/app/actions/summarize";
 import { awardPoints } from "@/app/actions/points";
 import { verifyAnimalAction } from "@/app/actions/verification";
@@ -31,6 +31,7 @@ export function AnimalCard({ animal }: AnimalCardProps) {
   const [verificationCode, setVerificationCode] = useState<string | null>(null);
   const [isVerified, setIsVerified] = useState(false);
   const [showAdoptionForm, setShowAdoptionForm] = useState(false);
+  const [imageError, setImageError] = useState(false);
   const { toast } = useToast();
 
   const getSummary = async (event: FormEvent) => {
@@ -124,7 +125,7 @@ export function AnimalCard({ animal }: AnimalCardProps) {
     try {
       // Award points for adoption
       const result = await awardPoints({
-        userId: "u1",
+        userId: "u1", // In a real app, this would be the logged-in user's ID
         action: "adopt_animal",
         animalId: animal.id,
         description: `Adopted ${animal.name} the ${animal.species}`
@@ -135,6 +136,7 @@ export function AnimalCard({ animal }: AnimalCardProps) {
           title: "Adoption Application Submitted!",
           description: `You earned ${result.points} points for adopting ${animal.name}! We'll contact you soon.`,
         });
+        setShowAdoptionForm(false);
       }
     } catch (error) {
       toast({
@@ -150,22 +152,23 @@ export function AnimalCard({ animal }: AnimalCardProps) {
       const result = await verifyAnimalAction({
         userId: "u1",
         animalId: animal.id,
-        action: action,
-        timestamp: new Date(),
+        action,
+        location: "Mumbai, India",
+        timestamp: new Date().toISOString()
       });
 
       if (result.success) {
-        setVerificationCode(result.verificationCode);
+        setVerificationCode(result.verificationCode || null);
         setIsVerified(true);
         toast({
-          title: "Action Verified!",
-          description: `Your ${action} action has been verified. Verification code: ${result.verificationCode}`,
+          title: "Action Verified! ✅",
+          description: `Your ${action} action has been verified with code: ${result.verificationCode}`,
         });
       }
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to verify action",
+        title: "Verification Failed",
+        description: "Failed to verify action. Please try again.",
         variant: "destructive",
       });
     }
@@ -174,13 +177,24 @@ export function AnimalCard({ animal }: AnimalCardProps) {
   return (
     <Card className="overflow-hidden flex flex-col transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
       <div className="relative h-60 w-full">
-        <Image
-          src={animal.photos[0]}
-          alt={`Photo of ${animal.name}`}
-          data-ai-hint={`${animal.species}`}
-          fill
-          className="object-cover"
-        />
+        {imageError ? (
+          <div className="w-full h-full bg-muted flex items-center justify-center">
+            <div className="text-center">
+              <ImageIcon className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">Image not available</p>
+            </div>
+          </div>
+        ) : (
+          <Image
+            src={animal.photos[0]}
+            alt={`Photo of ${animal.name}`}
+            data-ai-hint={`${animal.species}`}
+            fill
+            className="object-cover"
+            onError={() => setImageError(true)}
+            priority={false}
+          />
+        )}
       </div>
       <CardHeader>
         <div className="flex justify-between items-start">

@@ -1,19 +1,27 @@
 import Link from "next/link";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 
 export function Hero() {
+  const [imageError, setImageError] = useState(false);
+
   return (
     <section className="relative w-full h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white overflow-hidden">
       <div className="absolute inset-0 bg-black/50 z-10" />
-      <Image
-        src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=2950&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        alt="Happy Indian street dog in a field"
-        data-ai-hint="happy indian dog field"
-        fill
-        className="object-cover"
-        priority
-      />
+      {imageError ? (
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-700" />
+      ) : (
+        <Image
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop"
+          alt="Happy Indian street dog in a field"
+          data-ai-hint="happy indian dog field"
+          fill
+          className="object-cover"
+          priority
+          onError={() => setImageError(true)}
+        />
+      )}
       <div className="relative z-20 container mx-auto px-4 md:px-6 flex flex-col items-center gap-6 animate-fade-in-up">
         <h1 className="text-4xl md:text-6xl font-headline font-bold tracking-tight">
           JaanRaksha - Protecting Every Life
