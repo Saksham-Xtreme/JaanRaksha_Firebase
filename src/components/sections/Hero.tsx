@@ -15,9 +15,8 @@ export function Hero() {
         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-700" />
       ) : (
         <Image
-          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1200&h=800&fit=crop"
-          alt="Happy Indian street dog in a field"
-          data-ai-hint="happy indian dog field"
+          src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=1200&h=800&fit=crop"
+          alt="Animals playing in a field"
           fill
           className="object-cover"
           priority
@@ -36,7 +35,7 @@ export function Hero() {
             <Link href="/adopt">Adopt a Pet</Link>
           </Button>
           <Button asChild size="lg" variant="secondary" className="transform transition-transform hover:scale-105">
-            <Link href="/shelters">Support a Shelter</Link>
+            <Link href="/fundraiser">Help with Fundraising</Link>
           </Button>
         </div>
       </div>

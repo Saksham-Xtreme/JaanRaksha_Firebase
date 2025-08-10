@@ -48,9 +48,17 @@ export function Header() {
           ))}
         </nav>
         <div className="flex items-center gap-4">
-           <Button asChild className="hidden md:flex">
-             <Link href="/contact">Get Involved</Link>
-           </Button>
+          <nav className="hidden md:flex items-center gap-4">
+            <Link href="/auth/login" className="text-sm font-medium hover:text-primary">
+              Sign In
+            </Link>
+            <Button asChild>
+              <Link href="/auth/signup">Sign Up</Link>
+            </Button>
+          </nav>
+          <Button asChild className="hidden md:flex">
+            <Link href="/contact">Get Involved</Link>
+          </Button>
           <div className="md:hidden">
             <Sheet>
               <SheetTrigger asChild>
@@ -62,7 +70,7 @@ export function Header() {
               <SheetContent side="right">
                 <div className="grid gap-4 py-6">
                   <Link href="/" className="mb-4">
-                     <Logo />
+                    <Logo />
                   </Link>
                   {navLinks.map((link) => (
                     <Link
@@ -70,7 +78,7 @@ export function Header() {
                       href={link.href}
                       className={cn(
                         "text-lg font-medium transition-colors hover:text-primary",
-                         pathname === link.href ? "text-primary" : "text-foreground"
+                        pathname === link.href ? "text-primary" : "text-foreground"
                       )}
                     >
                       {link.label}

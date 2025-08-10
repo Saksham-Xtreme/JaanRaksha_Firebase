@@ -135,12 +135,20 @@ export function ProvideShelter() {
     <section className="py-16 md:py-24 bg-secondary/50">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold font-headline">Provide Shelter for Animals</h2>
+          <h2 className="text-3xl md:text-4xl font-bold font-headline">Help with Fundraising</h2>
           <p className="max-w-2xl mt-4 text-muted-foreground">
-            Help us create safe havens for animals in need. Offer your land for shelter development 
-            and make a lasting impact on animal welfare in India.
+            Please fill out the form below to support shelters through fundraising efforts.
           </p>
         </div>
+        {/* Fundraiser form component */}
+        <div className="max-w-4xl mx-auto">
+          {/* Assuming FundraiserForm component exists */}
+          <FundraiserForm />
+        </div>
+      </div>
+    </section>
+  );
+}
 
         <div className="max-w-4xl mx-auto">
           <Card className="shadow-xl">
