@@ -238,4 +238,35 @@ export function FundraiserForm() {
                   </Button>
                   <Button
                     type="button"
-                    variant="outline
+                    variant="outline"
+                    onClick={() => handleInputChange('amount', '2000')}
+                  >
+                    ₹2,000
+                  </Button>
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? (
+                    <div className="flex items-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      Processing...
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-2">
+                      <DollarSign className="h-4 w-4" />
+                      Donate Now
+                    </div>
+                  )}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    </section>
+  );
+}
